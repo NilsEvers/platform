@@ -2,6 +2,7 @@
 
 namespace Shopware\Core\Content\Product;
 
+use Exception;
 use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
 use Shopware\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -37,8 +38,7 @@ class ProductMaxPurchaseCalculator extends AbstractProductMaxPurchaseCalculator
         $steps = $product->getPurchaseSteps() ?? 1;
         $min = $product->getMinPurchase() ?? 1;
 
-        // the amount of times the purchase step is fitting in between min and max added to the minimum
-        $max = \floor(($max - $min) / $steps) * $steps + $min;
+        $max =  \floor($max / $steps) * $steps;
 
         return (int) \max($max, 0);
     }
